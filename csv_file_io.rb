@@ -12,5 +12,5 @@ a_file = File.new("sampleCSV.csv", "a")
 if a_file
   a_file.syswrite("Roger,Federer,24")
 else
-  puts"Unable to open file"
+  puts "Unable to open file"
 end
