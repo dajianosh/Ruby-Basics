@@ -1,22 +1,21 @@
 # general
-
-products = ["perfume","Music CD"]
+products = ["perfume", "Music CD"]
 medical_products =["headache", "pills"]
-food_products = ["Chocolate","Chocolates","chocolate","chocolates"]
-exempted_products = ["Book","book"] + medical_products + food_products
+food_products = ["Chocolate", "Chocolates", "chocolate", "chocolates"]
+exempted_products = ["Book", "book"] + medical_products + food_products
 total_price = 0.0
 sales_tax = 0.0
 import_tax = 0.0
 def import_tax (product_name)
   import_flag = false
   if product_name.include? "imported"         #checking imported or not
-      import_flag = true     
+    import_flag = true     
   end
   return import_flag        
 end
 
 def check_exemption(product_name, exempted_products)
-  exempted_flag =  false
+  exempted_flag = false
   for i in exempted_products
     if product_name.include? i
       exempted_flag = true  
@@ -31,7 +30,7 @@ input = Array.new
 while (product_details = gets.chomp) != 'exit'
   input.push(product_details) 
 end  
-# puts input
+
 # for loop for different inputs
 for item in input
   temp = item.split
@@ -60,9 +59,8 @@ for item in input
   sales_tax = sales_tax + tax 
   
   # output
- # puts "Output:"
   puts "#{quantity.to_i} #{product_name.join(' ')}: #{product_price.round(2)}"
 end  
  
-  puts "Sales Tax: #{(sales_tax).round(2)}"
-  puts "Total:#{(total_price).round(2)}"
+puts "Sales Tax: #{(sales_tax).round(2)}"
+puts "Total:#{(total_price).round(2)}"
