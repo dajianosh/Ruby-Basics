@@ -13,12 +13,16 @@ end
 
 def check_exemption(product_name, exempted_products, product_price) # checking product exempted from sales tax or not
   exempted_flag = false
+  sales_tax = 0.0
   for i in exempted_products
     if product_name.include? i
       exempted_flag = true 
     end  
   end
-  return exempted_flag
+  if exempted_flag == false                # calculating sales tax for non exempted products
+    sales_tax = 0.1 * product_price
+  end  
+  return sales_tax
 end    
   
 #input
@@ -34,16 +38,13 @@ for item in input
   quantity = Float(temp[0])
   product_price = Float(temp.last)
   product_name = temp.slice(1, temp.length-3)
-  sales_tax,i_tax = 0.0
 
   i_tax = check_imported(product_name, product_price)
-  exempt = check_exemption(product_name, exempted_products, product_price)
+  s_tax = check_exemption(product_name, exempted_products, product_price)
   
-  if exempt == false                # calculating sales tax for non exempted products
-    sales_tax = 0.1 * product_price
-  end  
-  total_tax = total_tax + sales_tax + i_tax 
-  product_price = product_price + sales_tax + i_tax
+  
+  total_tax = total_tax + s_tax + i_tax 
+  product_price = product_price + s_tax + i_tax
   final_price += (product_price * quantity)
   # output
   puts "#{quantity.to_i} #{product_name.join(' ')}: #{product_price.round(2)}"
