@@ -1,25 +1,22 @@
 # general
-products = ["perfume", "Music CD"]
-medical_products =["headache", "pills"]
-food_products = ["Chocolate", "Chocolates", "chocolate", "chocolates"]
-exempted_products = ["Book", "book"] + medical_products + food_products
-total_price = 0.0
-sales_tax = 0.0
-import_tax = 0.0
-def import_tax (product_name)
-  import_flag = false
-  if product_name.include? "imported"         #checking imported or not
-    import_flag = true     
+exempted_products = %w(Book book headache pill chocolate Chocolate chocolates Chocolates box)
+final_price = 0.0
+total_tax = 0.0
+
+def check_imported(product_name, product_price) #checking imported or not and returning import tax if applicable
+  import_tax = 0.0
+  if product_name.include? "imported"           
+    import_tax = 0.05 * product_price
   end
-  return import_flag        
+  return import_tax 
 end
 
-def check_exemption(product_name, exempted_products)
+def check_exemption(product_name, exempted_products, product_price) # checking product exempted from sales tax or not
   exempted_flag = false
   for i in exempted_products
     if product_name.include? i
-      exempted_flag = true  
-    end    
+      exempted_flag = true 
+    end  
   end
   return exempted_flag
 end    
@@ -37,30 +34,20 @@ for item in input
   quantity = Float(temp[0])
   product_price = Float(temp.last)
   product_name = temp.slice(1, temp.length-3)
-  
-  # calculating import and sales tax
-  import_flag = import_tax (product_name)
-  exempted_flag = check_exemption(product_name, exempted_products)
+  sales_tax,i_tax = 0.0
 
-  if import_flag == true and exempted_flag == false
-    tax = 0.15 * product_price  
-    product_price = product_price + tax
-  elsif import_flag == true and exempted_flag == true
-    tax = 0.05 * product_price
-    product_price = product_price + tax
-  elsif import_flag == false and exempted_flag == false
-    tax = 0.1 * product_price
-    product_price = product_price + tax 
-  else 
-    tax = 0 * product_price
-    product_price = product_price + tax
-  end   
-  total_price = (total_price + product_price) * quantity
-  sales_tax = sales_tax + tax 
+  i_tax = check_imported(product_name, product_price)
+  exempt = check_exemption(product_name, exempted_products, product_price)
   
+  if exempt == false                # calculating sales tax for non exempted products
+    sales_tax = 0.1 * product_price
+  end  
+  total_tax = total_tax + sales_tax + i_tax 
+  product_price = product_price + sales_tax + i_tax
+  final_price += (product_price * quantity)
   # output
   puts "#{quantity.to_i} #{product_name.join(' ')}: #{product_price.round(2)}"
 end  
  
-puts "Sales Tax: #{(sales_tax).round(2)}"
-puts "Total:#{(total_price).round(2)}"
+puts "Sales Tax: #{(total_tax).round(2)}"
+puts "Total:#{(final_price).round(2)}"
