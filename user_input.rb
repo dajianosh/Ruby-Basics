@@ -5,6 +5,6 @@ class Input
     while(product_details = gets.chomp) != 'exit'
       input.push(product_details) 
     end 
-    return input   
+    input   
   end  
 end

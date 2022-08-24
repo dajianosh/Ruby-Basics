@@ -1,10 +1,10 @@
-$LOAD_PATH << '.'
+# $LOAD_PATH << '.'
 
-require 'user_input.rb'
-require 'tax_calculations.rb'
+# require 'user_input.rb'
+# require 'tax_calculations.rb'
+require_relative "user_input.rb"
+require_relative "tax_calculations.rb"
 
 #main
-i_obj = Input.new           #object of Input Class
-tax = Tax.new               #object of Tax Class
-details = i_obj.user_input
-tax.calculate_tax(details)
+input_details = Input.new.user_input
+Tax.new.calculate_tax(input_details)
